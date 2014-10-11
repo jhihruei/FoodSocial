@@ -56,6 +56,13 @@ def login():
     result = login(ldata['type'],ldata['account'],ldata['password'],ldata['fbID'])
     return jsonify({"stat":result})
 
+@app.route('/api/followUser',methods=['POST'])#API-004 follow 其他user
+def follow():
+    from user import followUser
+    data = request.get_json(force=True)
+    result = followUser(data['userID'],data['followUser'])
+    return jsonify({"stat":result})
+
 
 if __name__ == '__main__':
     app.run(debug=True)
