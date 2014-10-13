@@ -28,40 +28,48 @@ def mongo():
     return jsonify({"password":out['password'],"device":out['loginDevice']})
 
 
-@app.route('/api/testFollow',methods=['POST'])
+@app.route('/api/testWall',methods=['POST'])
 def apikey():
-    from user import followUser
+    from post import getPostWall
     data = request.get_json(force=True)
-    result = followUser(data['userID'],data['followUser'])
+    #result = followUser(data['userID'],data['followUser'])
+    result = getPostWall(data['userID'])
     return jsonify({"stat":result})
 
-@app.route('/api/post',methods=['POST'])#API-001 發佈API
+@app.route('/api/post',methods=['POST'])#FS-001 發佈API
 def post():
     from post import post_to_mongo
     data = request.get_json(force=True)
     result = post_to_mongo(data['poster'],data['recommendBy'],data['title'],data['address'],data['latitude'],data['content'],data['picture'])
     return jsonify({"stat":1,"id":str(result)})
 
-@app.route('/api/addUser',methods=['POST'])#API-002 新增user
+@app.route('/api/addUser',methods=['POST'])#FS-002 新增user
 def addUser():
     from user import adduser
     udata = request.get_json(force=True)
     adduser(udata['account'],udata['password'],udata['accountName'],udata['fbID'],udata['loginDevice'])
     return jsonify({"stat":1})
 
-@app.route('/api/login',methods=['POST'])#API-003 登入
+@app.route('/api/login',methods=['POST'])#FS-003 登入
 def login():
     from user import login
     ldata = request.get_json(force=True)
     result = login(ldata['type'],ldata['account'],ldata['password'],ldata['fbID'])
     return jsonify({"stat":result})
 
-@app.route('/api/followUser',methods=['POST'])#API-004 follow 其他user
+@app.route('/api/followUser',methods=['POST'])#FS-004 follow 其他user
 def follow():
     from user import followUser
     data = request.get_json(force=True)
     result = followUser(data['userID'],data['followUser'])
     return jsonify({"stat":result})
+
+@app.route('/api/getUserPostWall',methods=['POST'])#FS-005 個人PostWall
+def getUserPostWall():
+    from post import getUserPostWall
+    data = request.get_json(force=True)
+    result = getUserPostWall(data['userID'])
+    return jsonify({"stat":1,"result":result})
 
 
 if __name__ == '__main__':
