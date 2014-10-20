@@ -71,6 +71,23 @@ def getUserPostWall():
     result = getUserPostWall(data['userID'])
     return jsonify({"stat":1,"result":result})
 
+@app.route('/api/getPostByID',methods=['POST'])
+def getPostById():
+    from post import getPostByID
+    data = request.get_json(force=True)
+    result = getPostByID(data['postIDarray'])
+    return jsonify({"stat":1,"result":result})
+
+@app.route('/api/getPostID',methods=['POST'])
+def getPostId():
+    data = request.get_json(force=True)
+    if data['fun'] == 'userID':
+        from post import getPostIDByuserID 
+        result = getPostIDByuserID(data['userID'],data['count'])
+    else:
+        print 'Q'
+    return jsonify({"stat":1,"result":result})
+
 
 if __name__ == '__main__':
     app.run(debug=True)
