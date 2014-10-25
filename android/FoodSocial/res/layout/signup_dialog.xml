@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_height="match_parent"
+    android:paddingLeft="10dp" android:paddingRight="10dp"
+    android:background="#fff" android:layout_width="300dp"
+    android:paddingTop="10dp">
+
+    <EditText
+        android:id="@+id/txtAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/accountName" >
+
+        <requestFocus></requestFocus>
+    </EditText>
+
+    <EditText
+        android:id="@+id/txtPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/password"
+        android:inputType="textPassword" >
+	</EditText>
+	
+	<EditText
+	    android:id="@+id/txtAccountName"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:hint="@string/accountNamehint" >
+
+	</EditText>
+	
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:id="@+id/SignlinearLayout">
+
+        <Button
+            android:id="@+id/btnSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/signUpbtn" >
+</Button>
+
+        <Button
+            android:id="@+id/btnSignCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/cancel" >
+</Button>
+    </LinearLayout>
+</LinearLayout>
