@@ -71,14 +71,14 @@ def getUserPostWall():
     result = getUserPostWall(data['userID'])
     return jsonify({"stat":1,"result":result})
 
-@app.route('/api/getPostByID',methods=['POST'])
+@app.route('/api/getPostByID',methods=['POST'])#FS-006 透過postID取得文章內容
 def getPostById():
     from post import getPostByID
     data = request.get_json(force=True)
     result = getPostByID(data['postIDarray'])
     return jsonify({"stat":1,"result":result})
 
-@app.route('/api/getPostID',methods=['POST'])
+@app.route('/api/getPostID',methods=['POST'])#FS-007 根據search條件 取得postID
 def getPostId():
     data = request.get_json(force=True)
     if data['fun'] == 'userID':
@@ -86,6 +86,20 @@ def getPostId():
         result = getPostIDByuserID(data['userID'],data['count'])
     else:
         print 'Q'
+    return jsonify({"stat":1,"result":result})
+
+@app.route('/api/Favorites/add',methods=['POST'])
+def addFavFun():
+    from favorite import addFav
+    fdata = request.get_json(force=True)
+    result = addFav(fdata['userID'],fdata['groupName'],fdata['postIDarray'])
+    return jsonify({"stat":1})
+
+@app.route('/api/Favorites/get',methods=['POST'])
+def getFavFun():
+    from favorite import getFav
+    fdata = request.get_json(force=True)
+    result = getFav(fdata['userID'])
     return jsonify({"stat":1,"result":result})
 
 
