@@ -1,6 +1,7 @@
 #-*- coding: UTF-8 -*- 
 from pymongo import MongoClient
 from datetime import datetime
+from flask import  jsonify,json
 
 def adduser(account,password,accountName,fbID,loginDevice): #新增user
     from apiKey import createApiKey
@@ -30,7 +31,8 @@ def login(type,account,password,fbID): #登入api
         if checkLogin['password'] == password:
             mc.close()
             updateLoginTime(checkLogin['userID'])
-            return 1
+            #return 1
+            return jsonify({"stat":1,"userID":int(checkLogin['userID'])})
         else:
             mc.close()
             return 0

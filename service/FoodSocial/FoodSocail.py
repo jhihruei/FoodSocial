@@ -55,7 +55,8 @@ def login():
     from user import login
     ldata = request.get_json(force=True)
     result = login(ldata['type'],ldata['account'],ldata['password'],ldata['fbID'])
-    return jsonify({"stat":result})
+    #return jsonify({"stat":result})
+    return result;
 
 @app.route('/api/followUser',methods=['POST'])#FS-004 follow 其他user
 def follow():
