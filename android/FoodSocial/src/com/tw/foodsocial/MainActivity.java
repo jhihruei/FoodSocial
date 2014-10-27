@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -42,6 +43,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 	private Handler mHandler;
 	private Thread mThread;
 	private Context mContext;
+	private GlobalVariable gv;
 	private HttpClient client;
 	private static JSONObject jObj;
     @Override
@@ -73,7 +75,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
         buttonAccount.setOnClickListener(this);
         buttonFB.setOnClickListener(this);
         buttonSignUp.setOnClickListener(this);
-        mContext = this.getBaseContext();
+        mContext = this.getApplicationContext();
+        gv = (GlobalVariable) mContext.getApplicationContext();
     }
 
     private void accountLogin(final String inputUser,final String inputPassword){//
@@ -86,7 +89,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 	    			String str_user = inputUser;
 	    			String str_passwd = inputPassword;
 	    			client = new DefaultHttpClient();
-	    	        HttpPost post = new HttpPost("http://10.0.2.2:5000/api/login");
+	    			String url = gv.getUrl()+"login";
+	    	        HttpPost post = new HttpPost(url);
 	    	        JSONObject postData = new JSONObject();
 	    	        postData.put("type", "account");
 	    	        postData.put("account", str_user);
@@ -99,7 +103,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 					if(rp.getStatusLine().getStatusCode() == 200){
 						String result = EntityUtils.toString(rp.getEntity());
 						jObj = new JSONObject(result);
-						Log.d("result", "stat:"+jObj.getString("stat"));
+						Log.d("loginresult", "stat:"+jObj.getString("stat"));
+						gv.setUserID(jObj.getInt("userID"));
+						Log.d("loginresult", "userID:"+jObj.getInt("userID"));
 						Message msg_t = new Message();
 						msg_t.what = 1;
 						mHandler.handleMessage(msg_t);
