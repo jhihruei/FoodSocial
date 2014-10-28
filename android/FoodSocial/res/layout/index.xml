@@ -4,20 +4,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+	
+	<LinearLayout
+	    android:id="@+id/LL_index_top"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentRight="true"
+	    android:layout_alignParentTop="true" >
 
-    <Button
-        android:id="@+id/buttonSignUp"
+		<TextView
+		    android:id="@+id/TV_foodItem_title"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="TextView" />
+
+		<Button
+		    android:id="@+id/button6"
+		    style="?android:attr/buttonStyleSmall"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="Button" />
+
+	</LinearLayout>
+	
+    <LinearLayout
+        android:id="@+id/LL_index_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Button" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
         android:layout_alignParentBottom="true"
-        >
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true" >
 
         <Button
             android:id="@+id/button1"
@@ -60,5 +77,16 @@
             android:text="Button" />
 
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/LV_index"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/LL_index_bottom"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/LL_index_top" >
+
+    </ListView>
 
 </RelativeLayout>
