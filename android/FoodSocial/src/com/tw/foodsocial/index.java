@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,13 +26,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnClickListener;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ListView;
 
-public class index extends ActionBarActivity{
+public class index extends ActionBarActivity implements OnClickListener{
 	private Handler mHandler;
 	private Thread mThreadid,mThreadpost;
 	private Context mContext,tContext;
@@ -41,10 +45,12 @@ public class index extends ActionBarActivity{
 	private List<foodItem> foodArray;
 	private foodItemAdapter fItemAdapter;
 	private ListView LV_index;
+	private Button postBtn;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.index);
 		init();
 		mHandler = new Handler(){
@@ -77,12 +83,11 @@ public class index extends ActionBarActivity{
         						fItem.setContent(jObjPost.getJSONArray("result").getJSONObject(i).getString("content"));
         						fItem.setPoster(jObjPost.getJSONArray("result").getJSONObject(i).getInt("poster"));
         						fItem.setRecommendBy(jObjPost.getJSONArray("result").getJSONObject(i).getInt("recommendBy"));
+        						fItem.setPostTime(jObjPost.getJSONArray("result").getJSONObject(i).getJSONObject("postTime").getLong("$date"));
         						foodArray.add(fItem);
         					}
         					Log.d("foodArray", foodArray.get(1).getContent());
-        					//fItemAdapter = new foodItemAdapter(tContext ,R.layout.fooditem, foodArray);
-        					//Log.d("foodArray", "QQ");
-        					//LV_index.setAdapter(fItemAdapter);
+        					//fItemAdapter.setFoodItem(foodArray);
         					break;
         				} catch (JSONException e) {
         					// TODO Auto-generated catch block
@@ -94,6 +99,12 @@ public class index extends ActionBarActivity{
         	}
         };
         followWallid(1);
+        try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         fItemAdapter = new foodItemAdapter(tContext ,R.layout.fooditem, foodArray);
 		Log.d("foodArray", "QQ");
 		LV_index.setAdapter(fItemAdapter);
@@ -105,7 +116,10 @@ public class index extends ActionBarActivity{
         gv = (GlobalVariable) mContext.getApplicationContext();
         foodArray = new ArrayList<foodItem>();
         LV_index = (ListView) this.findViewById(R.id.LV_index);
+        postBtn = (Button) this.findViewById(R.id.BT_index_post);
+        postBtn.setOnClickListener(this);
 	}
+	
 
 	private void followWallid(final int inputCount){//
     	mThreadid = new Thread(new Runnable(){
@@ -220,6 +234,16 @@ public class index extends ActionBarActivity{
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		return super.onContextItemSelected(item);
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		if(v==postBtn){
+			Intent i = new Intent();
+			i.setClass(index.this, postPage.class);
+			startActivity(i);
+		}
 	}
 	
 }

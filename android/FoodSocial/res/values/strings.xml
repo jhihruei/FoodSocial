@@ -14,5 +14,8 @@
     <string name="signup">註冊</string>
     <string name="accountNamehint">帳號名稱</string>
     <string name="signUpbtn">註冊</string>
+    <string name="postPageTitle">標題:</string>
+    <string name="postPageAddress">地址:</string>
+    <string name="postPage_content">內容</string>
 
 </resources>

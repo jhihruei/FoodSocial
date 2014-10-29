@@ -42,16 +42,23 @@ public class foodItemAdapter extends ArrayAdapter<foodItem>{
 		TextView TV_foodItem_title = (TextView) foodItemView.findViewById(R.id.TV_foodItem_title);
 		TextView TV_foodItem_address = (TextView) foodItemView.findViewById(R.id.TV_foodItem_address);
 		TextView TV_foodItem_content = (TextView) foodItemView.findViewById(R.id.TV_foodItem_content);
+		TextView TV_foodItem_postTime = (TextView) foodItemView.findViewById(R.id.TV_foodItem_postTIme);
 		
 		TV_foodItem_title.setText(fItem.getTitle());
 		TV_foodItem_address.setText(fItem.getAddress());
 		TV_foodItem_content.setText(fItem.getContent());
+		TV_foodItem_postTime.setText(fItem.getPostTimeString());
 		
 		return foodItemView;
 	}
 
 	public foodItem getFoodItem(int index){
 		return fItems.get(index);
+	}
+	
+	public void setFoodItem(List<foodItem> inputfItems){
+		fItems.addAll(inputfItems);
+		this.notifyDataSetChanged();
 	}
 	
 }
