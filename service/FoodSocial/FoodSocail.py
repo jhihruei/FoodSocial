@@ -89,18 +89,25 @@ def getPostId():
         print 'Q'
     return jsonify({"stat":1,"result":result})
 
-@app.route('/api/Favorites/add',methods=['POST'])
+@app.route('/api/Favorites/add',methods=['POST'])#FS-008 Fav新增
 def addFavFun():
     from favorite import addFav
     fdata = request.get_json(force=True)
     result = addFav(fdata['userID'],fdata['groupName'],fdata['postIDarray'])
     return jsonify({"stat":1})
 
-@app.route('/api/Favorites/get',methods=['POST'])
+@app.route('/api/Favorites/get',methods=['POST'])#FS-009 Fav取得
 def getFavFun():
     from favorite import getFav
     fdata = request.get_json(force=True)
     result = getFav(fdata['userID'])
+    return jsonify({"stat":1,"result":result})
+
+@app.route('/api/user/getName',methods=['POST'])#FS-010 get User Name
+def getName():
+    from user import getUserName
+    udata = request.get_json(force=True)
+    result = getUserName(udata['userID'])
     return jsonify({"stat":1,"result":result})
 
 

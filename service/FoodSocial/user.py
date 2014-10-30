@@ -58,3 +58,10 @@ def followUser(userid,followid):#follow 其他User
     result = uCol.update({"userID":userid},{'$push':{"followUser":followid}})
     mc.close()
     return result
+
+def getUserName(userid):
+    mc = MongoClient()
+    uCol = mc.foodSocial.users
+    result = uCol.find_one({"userID":userid},{"accountName":1})
+    mc.close()
+    return result['accountName']
