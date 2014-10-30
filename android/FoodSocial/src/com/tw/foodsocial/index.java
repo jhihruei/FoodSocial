@@ -15,6 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.tw.foodsocial.RefreshLayout.OnLoadListener;
+
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -36,6 +39,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class index extends ActionBarActivity implements OnClickListener{
 	private Handler mHandler;
@@ -51,6 +55,8 @@ public class index extends ActionBarActivity implements OnClickListener{
 	private Spinner SP_index_type;
 	private String[] type = {"postWall","group"};
 	private ArrayAdapter<String> typeList;
+	private RefreshLayout RFL_index;
+	private int refreshCount = 1;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -80,6 +86,8 @@ public class index extends ActionBarActivity implements OnClickListener{
         				}
         				break;
         			case 2://取完post存入foodItem array
+        				if(!foodArray.isEmpty())
+        					foodArray.clear();
         				if(jObjPost.isNull("stat"))
         					break;
         				try {
@@ -125,6 +133,8 @@ public class index extends ActionBarActivity implements OnClickListener{
         gv = (GlobalVariable) mContext.getApplicationContext();
         foodArray = new ArrayList<foodItem>();
         LV_index = (ListView) this.findViewById(R.id.LV_index);
+        RFL_index = (RefreshLayout) this.findViewById(R.id.RFL_index);
+        RFL_index_listener();
         postBtn = (Button) this.findViewById(R.id.BT_index_post);
         postBtn.setOnClickListener(this);
         SP_index_type = (Spinner) this.findViewById(R.id.SP_index_type);
@@ -132,6 +142,52 @@ public class index extends ActionBarActivity implements OnClickListener{
         SP_index_type.setAdapter(typeList);
 	}
 	
+	private void RFL_index_listener() {
+		// TODO Auto-generated method stub
+		RFL_index.setOnRefreshListener(new OnRefreshListener(){
+
+			@Override
+			public void onRefresh() {
+				// TODO Auto-generated method stub
+				Toast.makeText(index.this, "refresh" , Toast.LENGTH_SHORT).show();
+				
+				RFL_index.postDelayed(new Runnable(){
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						reloadList(1);
+						RFL_index.setRefreshing(false);
+					}
+					
+				}, 1000);
+			}
+			
+		});
+		
+		RFL_index.setOnLoadListener(new OnLoadListener(){
+
+			@Override
+			public void onLoad() {
+				// TODO Auto-generated method stub
+				Toast.makeText(index.this, "load" , Toast.LENGTH_SHORT).show();
+				
+				RFL_index.postDelayed(new Runnable(){
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						refreshCount++;
+						reloadList(refreshCount);
+						RFL_index.setLoading(false);
+					}
+					
+				}, 1500);
+			}
+			
+		});
+	}
+
 	private void reloadList(int inputCount){
 		followWallid(inputCount);
 	}

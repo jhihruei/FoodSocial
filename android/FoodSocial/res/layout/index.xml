@@ -70,17 +70,24 @@
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/LV_index"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/LL_index_bottom"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/LL_index_top"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp" >
+	<com.tw.foodsocial.RefreshLayout 
+	    android:id="@+id/RFL_index"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_above="@id/LL_index_bottom"
+	    android:layout_below="@id/LL_index_top" >
 
-    </ListView>
+    	<ListView
+        	android:id="@+id/LV_index"
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_alignParentLeft="true"
+        	android:layout_alignParentRight="true"
+        	android:layout_marginLeft="8dp"
+        	android:layout_marginRight="8dp" >
+
+    	</ListView>
+
+	</com.tw.foodsocial.RefreshLayout>
 
 </RelativeLayout>
