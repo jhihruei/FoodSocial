@@ -15,6 +15,8 @@ public class foodItem {
 	private String content;
 	private int poster;
 	private int recommendBy;
+	private String posterName;
+	private String recommendByName;
 	private Date postTime;
 	
 	public foodItem(){
@@ -23,16 +25,20 @@ public class foodItem {
 		this.content = "";
 		this.poster = 0;
 		this.recommendBy = 0;
+		posterName = "";
+		recommendByName = "";
 		this.postTime = new Date();
 	}
 	
-	public foodItem(String ititle,String iaddress,String icontent,int iposter,int irb,Date iPostTime){
+	public foodItem(String ititle,String iaddress,String icontent,int iposter,int irb,Date iPostTime,String iposterName,String irecommendByName){
 		this.title = ititle;
 		this.address = iaddress;
 		this.content = icontent;
 		this.poster = iposter;
 		this.recommendBy = irb;
 		this.postTime = iPostTime;
+		this.posterName = iposterName;
+		this.recommendByName = irecommendByName;
 	}
 	
 	public void setTitle(String inputTitle){
@@ -63,6 +69,14 @@ public class foodItem {
 		this.postTime = iDate;
 	}
 	
+	public void setPosterName(String iName){
+		this.posterName = iName;
+	}
+	
+	public void setRecommendByName(String iName){
+		this.recommendByName = iName;
+	}
+	
 	public String getTitle(){
 		return this.title;
 	}
@@ -87,11 +101,18 @@ public class foodItem {
 		return this.postTime;
 	}
 
-	
 	public String getPostTimeString(){
 		String resultTime;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		resultTime = sdf.format(this.postTime);
 		return resultTime;
+	}
+	
+	public String getPosterName(){
+		return this.posterName;
+	}
+	
+	public String getRecommendByName(){
+		return this.recommendByName;
 	}
 }

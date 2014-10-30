@@ -59,6 +59,24 @@
             android:text="TextView" />
 
         <TextView
+            android:id="@+id/TV_foodItem_poster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/TV_foodItem_recommendBy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="TextView" />
+
+        <TextView
             android:id="@+id/TV_foodItem_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

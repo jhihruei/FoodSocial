@@ -99,8 +99,8 @@
     </RelativeLayout>
 
     <LinearLayout
-    	android:id="@+id/LL_post_bottom"
-        android:layout_width="wrap_content"
+        android:id="@+id/LL_post_bottom"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" >
 

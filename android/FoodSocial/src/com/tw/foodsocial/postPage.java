@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -46,6 +47,7 @@ public class postPage extends Activity implements OnClickListener{
 				// TODO Auto-generated method stub
 				switch(msg.what){
 				case 1:
+					gotoIndex();
 					finish();
 					break;
 				}
@@ -128,6 +130,7 @@ public class postPage extends Activity implements OnClickListener{
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if(v == postBtn_back || v == postBtn_goIndex){
+			gotoIndex();
 			finish();
 		}
 		else if(v == postBtn_post){
@@ -136,4 +139,9 @@ public class postPage extends Activity implements OnClickListener{
 		}
 	}
 
+	public void gotoIndex(){
+		Intent i = new Intent();
+		i.setClass(postPage.this, index.class);
+		startActivity(i);
+	}
 }

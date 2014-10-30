@@ -14,7 +14,7 @@
 	    android:layout_alignParentTop="true" >
 
 		<Spinner
-		    android:id="@+id/spinner1"
+		    android:id="@+id/SP_index_type"
 		    android:layout_width="96dp"
 		    android:layout_height="34dp" />
 
