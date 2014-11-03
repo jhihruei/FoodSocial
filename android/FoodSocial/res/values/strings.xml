@@ -17,5 +17,8 @@
     <string name="postPageTitle">標題:</string>
     <string name="postPageAddress">地址:</string>
     <string name="postPage_content">內容</string>
+    <string name="取消">cancel</string>
+    <string name="enter">確定</string>
+    <string name="groupadd_hint">新建群組:</string>
 
 </resources>

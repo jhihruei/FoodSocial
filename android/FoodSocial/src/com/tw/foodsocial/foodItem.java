@@ -10,6 +10,7 @@ import android.R.string;
 
 public class foodItem {
 	
+	private int postID;
 	private String title;
 	private String address;
 	private String content;
@@ -20,6 +21,7 @@ public class foodItem {
 	private Date postTime;
 	
 	public foodItem(){
+		this.postID = 0;
 		this.title = "";
 		this.address = "";
 		this.content = "";
@@ -30,7 +32,8 @@ public class foodItem {
 		this.postTime = new Date();
 	}
 	
-	public foodItem(String ititle,String iaddress,String icontent,int iposter,int irb,Date iPostTime,String iposterName,String irecommendByName){
+	public foodItem(int ipostID,String ititle,String iaddress,String icontent,int iposter,int irb,Date iPostTime,String iposterName,String irecommendByName){
+		this.postID = ipostID;
 		this.title = ititle;
 		this.address = iaddress;
 		this.content = icontent;
@@ -39,6 +42,10 @@ public class foodItem {
 		this.postTime = iPostTime;
 		this.posterName = iposterName;
 		this.recommendByName = irecommendByName;
+	}
+	
+	public void setPostID(int inputPostid){
+		this.postID = inputPostid;
 	}
 	
 	public void setTitle(String inputTitle){
@@ -75,6 +82,10 @@ public class foodItem {
 	
 	public void setRecommendByName(String iName){
 		this.recommendByName = iName;
+	}
+	
+	public int getPostID(){
+		return this.postID;
 	}
 	
 	public String getTitle(){

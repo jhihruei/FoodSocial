@@ -17,6 +17,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.facebook.Session;
@@ -42,11 +43,11 @@ import android.widget.EditText;
 public class MainActivity extends ActionBarActivity implements OnClickListener{
 	private Button buttonAccount,buttonFB,buttonSignUp;
 	private Handler mHandler;
-	private Thread mThread;
+	private Thread mThread,mGThread;
 	private Context mContext;
 	private GlobalVariable gv;
-	private HttpClient client;
-	private static JSONObject jObj;
+	private HttpClient client,Gclient;
+	private static JSONObject jObj,GjObj;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +58,34 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
         	public void handleMessage(Message msg){
         		switch(msg.what){
         			case 1:
-        				gotoIndex();
+        				//gotoIndex();
+        				setGroups();
         				break;
         			case 2: 
         				onClick(buttonAccount);
+        				break;
+        			case 3:
+					try {
+						if(GjObj.getInt("stat") == 1){
+        					try {
+								for(int i = 0 ; i < GjObj.getJSONArray("result").length() ; i++){
+									ArrayList<Integer> intArray = new ArrayList<Integer>();
+									for(int j = 0 ; j < GjObj.getJSONArray("result").getJSONObject(i).getJSONArray("groups").length();j++){
+										intArray.add(GjObj.getJSONArray("result").getJSONObject(i).getJSONArray("groups").getInt(j));
+									}
+									gv.setGroup(GjObj.getJSONArray("result").getJSONObject(i).getString("groupName"), intArray);
+									Log.d("groupArray", gv.getGroups().get(0).getIDs().toString());
+								}
+							} catch (JSONException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+        				}
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+        				gotoIndex();
         				break;
         		}		
         		super.handleMessage(msg);
@@ -178,6 +203,48 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
     	mThread.start();
     }
     
+    private void setGroups(){//
+    	mGThread = new Thread(new Runnable(){
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+	    			Gclient = new DefaultHttpClient();
+	    			String url = gv.getUrl()+"Favorites/get";
+	    	        HttpPost post = new HttpPost(url);
+	    	        JSONObject postData = new JSONObject();
+	    	        postData.put("userID", gv.getUserID());
+	    	        post.setEntity(new StringEntity(postData.toString()));
+	    	        post.setHeader("Content-type", "application/json");
+	    	        HttpResponse rp = Gclient.execute(post);
+					if(rp.getStatusLine().getStatusCode() == 200){
+						String result = EntityUtils.toString(rp.getEntity());
+						GjObj = new JSONObject(result);
+						Log.d("GroupGet", "stat:"+GjObj.getString("stat"));
+						//Log.d("loginresult", "userID:"+GjObj.getInt("userID"));
+						Message msg_t = new Message();
+						msg_t.what = 3;
+						mHandler.handleMessage(msg_t);
+					}
+					else{
+						Log.d("result", "Not 200");
+					}
+				} catch (ClientProtocolException e) {
+					Log.d("cPE", e.getMessage().toString());
+				} catch (IOException e) {
+					Log.d("IOE", e.getMessage().toString());
+				} catch (Exception e){
+					Log.d("E", e.getMessage().toString());
+				}
+				finally{
+					Gclient.getConnectionManager().shutdown();
+				}
+			}
+    	});
+    	mGThread.start();
+    }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -212,6 +279,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					accountLogin(txtUsername.getText().toString(),txtPassword.getText().toString());
+					login.dismiss();
 				}
     		});
     		

@@ -35,6 +35,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -93,6 +95,7 @@ public class index extends ActionBarActivity implements OnClickListener{
         				try {
         					for(int i = 0 ; i < jObjPost.getJSONArray("result").length();i++){
         						foodItem fItem = new foodItem();
+        						fItem.setPostID(jObjPost.getJSONArray("result").getJSONObject(i).getInt("postID"));
         						fItem.setTitle(jObjPost.getJSONArray("result").getJSONObject(i).getString("title"));
         						fItem.setAddress(jObjPost.getJSONArray("result").getJSONObject(i).getString("address"));
         						fItem.setContent(jObjPost.getJSONArray("result").getJSONObject(i).getString("content"));
@@ -135,6 +138,7 @@ public class index extends ActionBarActivity implements OnClickListener{
         LV_index = (ListView) this.findViewById(R.id.LV_index);
         RFL_index = (RefreshLayout) this.findViewById(R.id.RFL_index);
         RFL_index_listener();
+        listViewClick();
         postBtn = (Button) this.findViewById(R.id.BT_index_post);
         postBtn.setOnClickListener(this);
         SP_index_type = (Spinner) this.findViewById(R.id.SP_index_type);
@@ -279,6 +283,22 @@ public class index extends ActionBarActivity implements OnClickListener{
     	mThreadpost.start();
     }
 	
+	public void listViewClick(){
+		LV_index.setOnItemLongClickListener(new OnItemLongClickListener(){
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				foodItemAdapter tempAdapter = (foodItemAdapter) parent.getAdapter();
+				Toast.makeText(index.this, "id:"+tempAdapter.getFoodItem((int) id).getPostID(), Toast.LENGTH_LONG).show();
+				
+				return false;
+			}
+			
+		});
+	}
+	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -289,5 +309,5 @@ public class index extends ActionBarActivity implements OnClickListener{
 			finish();
 		}
 	}
-	
+
 }

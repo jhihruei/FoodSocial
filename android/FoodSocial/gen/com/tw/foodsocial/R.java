@@ -1366,42 +1366,50 @@ containing a value of this type.
         public static final int ic_launcher=0x7f020086;
     }
     public static final class id {
-        public static final int BT_index_2=0x7f05006f;
-        public static final int BT_index_3=0x7f050070;
-        public static final int BT_index_4=0x7f050071;
-        public static final int BT_index_5=0x7f050072;
-        public static final int BT_index_post=0x7f05006e;
-        public static final int BT_post_2=0x7f050088;
-        public static final int BT_post_3=0x7f050089;
-        public static final int BT_post_4=0x7f05008a;
-        public static final int BT_post_5=0x7f05008b;
-        public static final int BT_post_back=0x7f05007b;
-        public static final int BT_post_index=0x7f050087;
-        public static final int BT_post_post=0x7f05007c;
-        public static final int ET_post_address=0x7f050084;
-        public static final int ET_post_content=0x7f050086;
-        public static final int ET_post_title=0x7f050081;
-        public static final int LL_index_bottom=0x7f05006d;
-        public static final int LL_index_top=0x7f05006b;
-        public static final int LL_post_address=0x7f050082;
-        public static final int LL_post_bottom=0x7f05007e;
-        public static final int LL_post_content=0x7f050085;
-        public static final int LL_post_title=0x7f05007f;
-        public static final int LV_index=0x7f050074;
-        public static final int RFL_index=0x7f050073;
-        public static final int RL_post_center=0x7f05007d;
-        public static final int RL_post_top=0x7f05007a;
+        public static final int BT_foosItem_addGroup=0x7f050067;
+        public static final int BT_groupdialog_cancel=0x7f050071;
+        public static final int BT_groupdialog_enter=0x7f050072;
+        public static final int BT_index_2=0x7f050077;
+        public static final int BT_index_3=0x7f050078;
+        public static final int BT_index_4=0x7f050079;
+        public static final int BT_index_5=0x7f05007a;
+        public static final int BT_index_post=0x7f050076;
+        public static final int BT_post_2=0x7f050090;
+        public static final int BT_post_3=0x7f050091;
+        public static final int BT_post_4=0x7f050092;
+        public static final int BT_post_5=0x7f050093;
+        public static final int BT_post_back=0x7f050083;
+        public static final int BT_post_index=0x7f05008f;
+        public static final int BT_post_post=0x7f050084;
+        public static final int ET_groupdialog_add=0x7f05006f;
+        public static final int ET_post_address=0x7f05008c;
+        public static final int ET_post_content=0x7f05008e;
+        public static final int ET_post_title=0x7f050089;
+        public static final int LL_groupdialog_add=0x7f05006e;
+        public static final int LL_groupdialog_enter=0x7f050070;
+        public static final int LL_index_bottom=0x7f050075;
+        public static final int LL_index_top=0x7f050073;
+        public static final int LL_post_address=0x7f05008a;
+        public static final int LL_post_bottom=0x7f050086;
+        public static final int LL_post_content=0x7f05008d;
+        public static final int LL_post_title=0x7f050087;
+        public static final int LV_groupdialog=0x7f05006d;
+        public static final int LV_index=0x7f05007c;
+        public static final int LinearLayout1=0x7f05006c;
+        public static final int RFL_index=0x7f05007b;
+        public static final int RL_post_center=0x7f050085;
+        public static final int RL_post_top=0x7f050082;
         public static final int RelativeLayout1=0x7f050064;
-        public static final int SP_index_type=0x7f05006c;
-        public static final int SignlinearLayout=0x7f05008e;
-        public static final int TV_foodItem_address=0x7f050067;
-        public static final int TV_foodItem_content=0x7f05006a;
+        public static final int SP_index_type=0x7f050074;
+        public static final int SignlinearLayout=0x7f050096;
+        public static final int TV_foodItem_address=0x7f050068;
+        public static final int TV_foodItem_content=0x7f05006b;
         public static final int TV_foodItem_postTIme=0x7f050066;
-        public static final int TV_foodItem_poster=0x7f050068;
-        public static final int TV_foodItem_recommendBy=0x7f050069;
+        public static final int TV_foodItem_poster=0x7f050069;
+        public static final int TV_foodItem_recommendBy=0x7f05006a;
         public static final int TV_foodItem_title=0x7f050065;
-        public static final int TV_post_address=0x7f050083;
-        public static final int TV_post_title=0x7f050080;
+        public static final int TV_post_address=0x7f05008b;
+        public static final int TV_post_title=0x7f050088;
         public static final int action_bar=0x7f050027;
         public static final int action_bar_activity_content=0x7f050020;
         public static final int action_bar_container=0x7f050026;
@@ -1413,21 +1421,20 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f050021;
         public static final int action_menu_presenter=0x7f050022;
         public static final int action_mode_close_button=0x7f05002f;
-        public static final int action_settings=0x7f050093;
+        public static final int action_settings=0x7f05009b;
         public static final int activity_chooser_view_content=0x7f050030;
         public static final int always=0x7f050016;
         public static final int beginning=0x7f05001c;
         public static final int bottom=0x7f050006;
         public static final int box_count=0x7f050005;
-        public static final int btnCancel=0x7f050079;
-        public static final int btnLogin=0x7f050078;
-        public static final int btnSignCancel=0x7f050090;
-        public static final int btnSignUp=0x7f05008f;
+        public static final int btnCancel=0x7f050081;
+        public static final int btnLogin=0x7f050080;
+        public static final int btnSignCancel=0x7f050098;
+        public static final int btnSignUp=0x7f050097;
         public static final int button=0x7f050004;
         public static final int buttonAccount=0x7f050047;
         public static final int buttonFB=0x7f050048;
         public static final int buttonSignUp=0x7f050049;
-        public static final int cap=0x7f050091;
         public static final int center=0x7f050009;
         public static final int checkbox=0x7f050038;
         public static final int collapseActionView=0x7f050018;
@@ -1458,7 +1465,6 @@ containing a value of this type.
         public static final int com_facebook_usersettingsfragment_profile_name=0x7f050062;
         public static final int default_activity_button=0x7f050033;
         public static final int dialog=0x7f050019;
-        public static final int dice=0x7f050095;
         public static final int disableHome=0x7f050013;
         public static final int dropdown=0x7f05001a;
         public static final int edit_query=0x7f05003b;
@@ -1470,10 +1476,11 @@ containing a value of this type.
         public static final int icon=0x7f050035;
         public static final int ifRoom=0x7f050015;
         public static final int image=0x7f050032;
+        public static final int index_addToGroup=0x7f050099;
         public static final int inline=0x7f050007;
         public static final int large=0x7f050002;
         public static final int left=0x7f05000a;
-        public static final int linearLayout1=0x7f050077;
+        public static final int linearLayout1=0x7f05007f;
         public static final int listMode=0x7f05000c;
         public static final int list_item=0x7f050034;
         public static final int middle=0x7f05001d;
@@ -1481,11 +1488,10 @@ containing a value of this type.
         public static final int none=0x7f05001b;
         public static final int normal=0x7f050001;
         public static final int picker_subtitle=0x7f050059;
-        public static final int post=0x7f050094;
         public static final int progress_circular=0x7f050023;
         public static final int progress_horizontal=0x7f050024;
         public static final int radio=0x7f05003a;
-        public static final int remove=0x7f050092;
+        public static final int remove=0x7f05009a;
         public static final int right=0x7f05000b;
         public static final int search_badge=0x7f05003d;
         public static final int search_bar=0x7f05003c;
@@ -1509,13 +1515,12 @@ containing a value of this type.
         public static final int title=0x7f050036;
         public static final int top=0x7f050008;
         public static final int top_action_bar=0x7f05002b;
-        public static final int txtAccount=0x7f05008c;
-        public static final int txtAccountName=0x7f05008d;
-        public static final int txtPassword=0x7f050076;
-        public static final int txtUsername=0x7f050075;
+        public static final int txtAccount=0x7f050094;
+        public static final int txtAccountName=0x7f050095;
+        public static final int txtPassword=0x7f05007e;
+        public static final int txtUsername=0x7f05007d;
         public static final int up=0x7f05002c;
         public static final int useLogo=0x7f05000e;
-        public static final int user=0x7f050096;
         public static final int withText=0x7f050017;
     }
     public static final class integer {
@@ -1586,16 +1591,16 @@ containing a value of this type.
         public static final int com_facebook_tooltip_bubble=0x7f030027;
         public static final int com_facebook_usersettingsfragment=0x7f030028;
         public static final int fooditem=0x7f030029;
-        public static final int index=0x7f03002a;
-        public static final int login_dialog=0x7f03002b;
-        public static final int postpage=0x7f03002c;
-        public static final int signup_dialog=0x7f03002d;
-        public static final int support_simple_spinner_dropdown_item=0x7f03002e;
+        public static final int group_dialog=0x7f03002a;
+        public static final int index=0x7f03002b;
+        public static final int login_dialog=0x7f03002c;
+        public static final int postpage=0x7f03002d;
+        public static final int signup_dialog=0x7f03002e;
+        public static final int support_simple_spinner_dropdown_item=0x7f03002f;
     }
     public static final class menu {
         public static final int context=0x7f0c0000;
         public static final int main=0x7f0c0001;
-        public static final int option=0x7f0c0002;
     }
     public static final class string {
         public static final int FB=0x7f08002e;
@@ -1673,6 +1678,8 @@ containing a value of this type.
         public static final int com_facebook_usersettingsfragment_log_in_button=0x7f08000a;
         public static final int com_facebook_usersettingsfragment_logged_in=0x7f08000b;
         public static final int com_facebook_usersettingsfragment_not_logged_in=0x7f08000c;
+        public static final int enter=0x7f08003a;
+        public static final int groupadd_hint=0x7f08003b;
         public static final int hello_world=0x7f08002a;
         public static final int login=0x7f08002f;
         public static final int normal=0x7f08002d;
@@ -1682,6 +1689,7 @@ containing a value of this type.
         public static final int postPage_content=0x7f080038;
         public static final int signUpbtn=0x7f080035;
         public static final int signup=0x7f080033;
+        public static final int 取消=0x7f080039;
     }
     public static final class style {
         /** 
