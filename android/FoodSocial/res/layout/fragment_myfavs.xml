@@ -18,10 +18,10 @@
 
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/LV_Fav_content"
+    <ExpandableListView
+        android:id="@+id/ELV_Fav_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </ListView>
+        android:layout_height="wrap_content" >
+    </ExpandableListView>
 
 </LinearLayout>

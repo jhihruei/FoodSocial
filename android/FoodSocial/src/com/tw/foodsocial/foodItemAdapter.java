@@ -1,6 +1,7 @@
 package com.tw.foodsocial;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -36,7 +37,8 @@ public class foodItemAdapter extends ArrayAdapter<foodItem>{
 	private int resource;
 	private List<foodItem> fItems;
 	private JSONObject jObj;
-	private HttpClient client; 
+	private HttpClient client;
+	private GlobalVariable gv;
 	
 	public foodItemAdapter(Context context, int resource,
 			List<foodItem> fItems) {
@@ -44,6 +46,7 @@ public class foodItemAdapter extends ArrayAdapter<foodItem>{
 		// TODO Auto-generated constructor stub
 		this.resource = resource;
 		this.fItems = fItems;
+		gv = (GlobalVariable) context.getApplicationContext();
 	}
 
 	@Override
@@ -90,7 +93,10 @@ public class foodItemAdapter extends ArrayAdapter<foodItem>{
 	    		final EditText txtNewGroup = (EditText) addGroup.findViewById(R.id.ET_groupdialog_add);
 	    		ListView LV_groupdialog = (ListView) addGroup.findViewById(R.id.LV_groupdialog);
 	    		
-	    		String[] strs = {"內壢","b","c","d","e","f"};
+	    		ArrayList<String> strs = new ArrayList<String>();
+	    		for(int i = 0 ; i < gv.getGroups().size() ;i++){
+	    			strs.add(gv.getGroups().get(i).getGroupName());
+	    		}
 	    		ArrayAdapter<String> adapter_groupdialog = new ArrayAdapter<String>(v.getContext(),android.R.layout.simple_list_item_1,strs);
 	    		LV_groupdialog.setAdapter(adapter_groupdialog);
 	    		
@@ -160,6 +166,9 @@ public class foodItemAdapter extends ArrayAdapter<foodItem>{
 	}
 	
 	public void addFav(final String addTargetGroupName,final int postID){
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+		temp.add(postID);
+		gv.setGroup(addTargetGroupName, temp);
 		Thread mThreadid = new Thread(new Runnable(){
 
 			@Override

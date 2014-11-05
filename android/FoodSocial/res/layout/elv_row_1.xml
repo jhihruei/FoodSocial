@@ -8,6 +8,8 @@
         android:id="@+id/TV_Row1_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="fragment" />
+        android:gravity="center_vertical"
+        android:height="60dp"
+        android:text="TextView" />
 
 </LinearLayout>

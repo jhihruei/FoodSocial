@@ -16,7 +16,7 @@ public class foodSocialFrame extends FragmentActivity implements OnClickListener
 	private Fragment F_content;
 	private FragmentTransaction FT;
 	private FragmentManager fm;
-	private Button BT_F_1,BT_F_2;
+	private Button BT_F_1,BT_F_2,BT_F_3;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -37,6 +37,8 @@ public class foodSocialFrame extends FragmentActivity implements OnClickListener
 		BT_F_1.setOnClickListener(this);
 		BT_F_2 = (Button) this.findViewById(R.id.BT_F_2);
 		BT_F_2.setOnClickListener(this);
+		BT_F_3 = (Button) this.findViewById(R.id.BT_F_3);
+		BT_F_3.setOnClickListener(this);
 	}
 
 	public void changeFragment(int targetFragment){
@@ -62,12 +64,15 @@ public class foodSocialFrame extends FragmentActivity implements OnClickListener
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if(v == BT_F_1){
-			changeFragment(2);
+			changeFragment(1);
 			Log.d("pg", "gotopg");
 		}
 		else if(v == BT_F_2){
 			changeFragment(3);
 			Log.d("mf","gotomf");
+		}
+		else if(v == BT_F_3){
+			changeFragment(2);
 		}
 	}
 	
