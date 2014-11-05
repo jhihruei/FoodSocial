@@ -20,30 +20,26 @@ import com.tw.foodsocial.RefreshLayout.OnLoadListener;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.View.OnClickListener;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemLongClickListener;
 
-public class index extends ActionBarActivity implements OnClickListener{
+public class fragment_postWall extends Fragment implements OnClickListener{
 	private Handler mHandler;
 	private Thread mThreadid,mThreadpost;
 	private Context mContext,tContext;
@@ -53,22 +49,27 @@ public class index extends ActionBarActivity implements OnClickListener{
 	private List<foodItem> foodArray;
 	private foodItemAdapter fItemAdapter;
 	private ListView LV_index;
-	private Button postBtn;
-	private Spinner SP_index_type;
-	private String[] type = {"postWall","group"};
-	private ArrayAdapter<String> typeList;
+	//private Button postBtn;
+	//private Spinner SP_index_type;
+	//private String[] type = {"postWall","group"};
+	//private ArrayAdapter<String> typeList;
 	private RefreshLayout RFL_index;
 	private int refreshCount = 1;
+	private View mView;
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.index);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(savedInstanceState);
 		init();
 		fItemAdapter = new foodItemAdapter(tContext ,R.layout.fooditem, foodArray);
 		LV_index.setAdapter(fItemAdapter);
-		mHandler = new Handler(){
+		mHandler = new Handler(Looper.getMainLooper()){
         	public void handleMessage(Message msg){
         		switch(msg.what){
         			case 1://取完postID存入JSONArray
@@ -79,7 +80,6 @@ public class index extends ActionBarActivity implements OnClickListener{
         						for(int i = 0; i < jObj.getJSONArray("result").length();i++){
         							jArray.put(jObj.getJSONArray("result").getJSONObject(i).getInt("postID"));
         						}
-        						Log.d("jArray", "jArray:"+jArray.toString());
         						followWallpost(jArray);
         						break;
         				} catch (JSONException e) {
@@ -106,9 +106,15 @@ public class index extends ActionBarActivity implements OnClickListener{
         						fItem.setRecommendByName(jObjPost.getJSONArray("result").getJSONObject(i).getString("recommendByName"));
         						foodArray.add(fItem);
         					}
-        					fItemAdapter.refresh(foodArray);
-        					Log.d("foodArray", foodArray.get(1).getContent());
-        					break;
+        					//Log.d("thread", "thread="+Thread.currentThread().getName());
+        					LV_index.post(new Runnable(){
+								@Override
+								public void run() {
+									// TODO Auto-generated method stub
+									fItemAdapter.refresh(foodArray);
+								}
+	    					});
+        					//Log.d("foodArray", foodArray.get(1).getContent());
         				} catch (JSONException e) {
         					// TODO Auto-generated catch block
         					e.printStackTrace();
@@ -119,31 +125,32 @@ public class index extends ActionBarActivity implements OnClickListener{
         	}
         };
         followWallid(1);
-        /*try {
-			Thread.sleep(200);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        fItemAdapter = new foodItemAdapter(tContext ,R.layout.fooditem, foodArray);
-		Log.d("foodArray", "QQ");
-		LV_index.setAdapter(fItemAdapter);*/
+	}
+
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		mView = inflater.inflate(R.layout.index, container, false);
+		return mView;
 	}
 	
 	private void init(){
-		mContext = this.getApplicationContext();
-		tContext = this.getBaseContext();
+		mContext = this.getActivity().getApplicationContext();
+		tContext = this.getActivity().getBaseContext();
         gv = (GlobalVariable) mContext.getApplicationContext();
         foodArray = new ArrayList<foodItem>();
-        LV_index = (ListView) this.findViewById(R.id.LV_index);
-        RFL_index = (RefreshLayout) this.findViewById(R.id.RFL_index);
+        LV_index = (ListView) mView.findViewById(R.id.LV_index);
+        RFL_index = (RefreshLayout) mView.findViewById(R.id.RFL_index);
         RFL_index_listener();
         listViewClick();
-        postBtn = (Button) this.findViewById(R.id.BT_index_post);
-        postBtn.setOnClickListener(this);
-        SP_index_type = (Spinner) this.findViewById(R.id.SP_index_type);
-        typeList = new ArrayAdapter<String>(mContext,android.R.layout.simple_spinner_dropdown_item,type);
-        SP_index_type.setAdapter(typeList);
+        //postBtn = (Button) this.getActivity().findViewById(R.id.BT_F_1);
+        //postBtn.setOnClickListener(this);
+        //SP_index_type = (Spinner) mView.findViewById(R.id.SP_index_type);
+        //typeList = new ArrayAdapter<String>(mContext,android.R.layout.simple_spinner_dropdown_item,type);
+        //SP_index_type.setAdapter(typeList);
+        //Log.d("postWall", "6");
 	}
 	
 	private void RFL_index_listener() {
@@ -153,7 +160,7 @@ public class index extends ActionBarActivity implements OnClickListener{
 			@Override
 			public void onRefresh() {
 				// TODO Auto-generated method stub
-				Toast.makeText(index.this, "refresh" , Toast.LENGTH_SHORT).show();
+				//Toast.makeText(fragment_postWall.this, "refresh" , Toast.LENGTH_SHORT).show();
 				
 				RFL_index.postDelayed(new Runnable(){
 
@@ -174,7 +181,7 @@ public class index extends ActionBarActivity implements OnClickListener{
 			@Override
 			public void onLoad() {
 				// TODO Auto-generated method stub
-				Toast.makeText(index.this, "load" , Toast.LENGTH_SHORT).show();
+				//Toast.makeText(index.this, "load" , Toast.LENGTH_SHORT).show();
 				
 				RFL_index.postDelayed(new Runnable(){
 
@@ -197,6 +204,8 @@ public class index extends ActionBarActivity implements OnClickListener{
 	}
 
 	private void followWallid(final int inputCount){//
+		if(mThreadid != null)
+			mThreadid.interrupt();
     	mThreadid = new Thread(new Runnable(){
 
 			@Override
@@ -242,6 +251,8 @@ public class index extends ActionBarActivity implements OnClickListener{
     }
 	
 	private void followWallpost(final JSONArray inputArray){//
+		if(mThreadpost != null)
+			mThreadpost.interrupt();
     	mThreadpost = new Thread(new Runnable(){
 
 			@Override
@@ -260,7 +271,8 @@ public class index extends ActionBarActivity implements OnClickListener{
 						String result = EntityUtils.toString(rp.getEntity());
 						jObjPost = new JSONObject(result);
 						Log.d("result", "stat:"+jObjPost.getString("stat"));
-						Log.d("postID",	"result:"+jObjPost.getJSONArray("result"));
+						//Log.d("postID",	"result:"+jObjPost.getJSONArray("result"));
+						//Log.d("threadfw", "thread="+Thread.currentThread().getName());
 						Message msg_t = new Message();
 						msg_t.what = 2;
 						mHandler.handleMessage(msg_t);
@@ -291,7 +303,7 @@ public class index extends ActionBarActivity implements OnClickListener{
 					int position, long id) {
 				// TODO Auto-generated method stub
 				foodItemAdapter tempAdapter = (foodItemAdapter) parent.getAdapter();
-				Toast.makeText(index.this, "id:"+tempAdapter.getFoodItem((int) id).getPostID(), Toast.LENGTH_LONG).show();
+				//Toast.makeText(index.this, "id:"+tempAdapter.getFoodItem((int) id).getPostID(), Toast.LENGTH_LONG).show();
 				
 				return false;
 			}
@@ -302,12 +314,14 @@ public class index extends ActionBarActivity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		if(v==postBtn){
-			Intent i = new Intent();
-			i.setClass(index.this, postPage.class);
-			startActivity(i);
-			finish();
-		}
+		//if(v==postBtn){
+			//Intent i = new Intent();
+			//i.setClass(this.getActivity().getApplicationContext(), postPage.class);
+			//startActivity(i);
+			//finish();
+		//}
 	}
+
+
 
 }

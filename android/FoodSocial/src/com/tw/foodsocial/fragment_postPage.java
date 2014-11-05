@@ -12,20 +12,23 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class postPage extends Activity implements OnClickListener{
+public class fragment_postPage extends Fragment implements OnClickListener{
 	private Button postBtn_back,postBtn_post,postBtn_goIndex;
 	private EditText postET_title,postET_address,postET_content;
 	private Context mContext;
@@ -34,12 +37,25 @@ public class postPage extends Activity implements OnClickListener{
 	private GlobalVariable gv;
 	private HttpClient client;
 	private static JSONObject jObj;
+	private View mView;
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.postpage);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		mView = inflater.inflate(R.layout.postpage, container, false);
+		return mView;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(savedInstanceState);
 		init();
 		mHandler = new Handler(){
 			@Override
@@ -48,28 +64,27 @@ public class postPage extends Activity implements OnClickListener{
 				switch(msg.what){
 				case 1:
 					gotoIndex();
-					finish();
+					//finish();
 					break;
 				}
 				super.handleMessage(msg);
 			}
 			
 		};
-		
 	}
 
 	private void init(){
-		mContext = this.getApplicationContext();
+		mContext = this.getActivity().getApplicationContext();
         gv = (GlobalVariable) mContext.getApplicationContext();
-		postBtn_back = (Button) this.findViewById(R.id.BT_post_back);
-		postBtn_post = (Button) this.findViewById(R.id.BT_post_post);
-		postBtn_goIndex = (Button) this.findViewById(R.id.BT_post_index);
+		postBtn_back = (Button) mView.findViewById(R.id.BT_post_back);
+		postBtn_post = (Button) mView.findViewById(R.id.BT_post_post);
+		//postBtn_goIndex = (Button) mView.findViewById(R.id.BT_post_index);
 		postBtn_back.setOnClickListener(this);
 		postBtn_post.setOnClickListener(this);
-		postBtn_goIndex.setOnClickListener(this);
-		postET_title = (EditText) this.findViewById(R.id.ET_post_title);
-		postET_address = (EditText) this.findViewById(R.id.ET_post_address);
-		postET_content = (EditText) this.findViewById(R.id.ET_post_content);
+		//postBtn_goIndex.setOnClickListener(this);
+		postET_title = (EditText) mView.findViewById(R.id.ET_post_title);
+		postET_address = (EditText) mView.findViewById(R.id.ET_post_address);
+		postET_content = (EditText) mView.findViewById(R.id.ET_post_content);
 	}
 	
 	private void postToApi(){
@@ -131,17 +146,22 @@ public class postPage extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		if(v == postBtn_back || v == postBtn_goIndex){
 			gotoIndex();
-			finish();
+			//finish();
 		}
 		else if(v == postBtn_post){
 			postToApi();
+			gotoIndex();
 			//finish();
 		}
 	}
 
 	public void gotoIndex(){
-		Intent i = new Intent();
-		i.setClass(postPage.this, index.class);
-		startActivity(i);
+		FragmentTransaction FT;
+		Fragment newFragment = new fragment_postWall();
+		FT = this.getActivity().getSupportFragmentManager().beginTransaction();
+		FT.replace(R.id.LL_F_content, newFragment);
+		FT.addToBackStack(null);
+		FT.commit();
 	}
+	
 }

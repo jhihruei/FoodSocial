@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="NewApi">
+        <ignore path="src/com/tw/foodsocial/foodSocialFrame.java" />
+        <ignore path="src/com/tw/foodsocial/fragment_postPage.java" />
+        <ignore path="src/com/tw/foodsocial/fragment_postWall.java" />
+    </issue>
+</lint>

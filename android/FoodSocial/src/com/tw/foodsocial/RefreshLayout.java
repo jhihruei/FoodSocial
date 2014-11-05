@@ -95,7 +95,7 @@ public class RefreshLayout extends SwipeRefreshLayout implements OnScrollListene
 		return (mYDown - mLastY) >= mTouchSlop;
 	}
 
-	private void loadData() {
+	public void loadData() {
 		// TODO Auto-generated method stub
 		if(mOnLoadListener != null){
 			setLoading(true);

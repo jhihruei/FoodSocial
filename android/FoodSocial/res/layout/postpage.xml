@@ -31,9 +31,8 @@
 
     <RelativeLayout
         android:id="@+id/RL_post_center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/LL_post_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@id/RL_post_top"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp" >
@@ -97,52 +96,5 @@
         </LinearLayout>
 
     </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/LL_post_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" >
-
-        <Button
-            android:id="@+id/BT_post_index"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="index" />
-
-        <Button
-            android:id="@+id/BT_post_2"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Button" />
-
-        <Button
-            android:id="@+id/BT_post_3"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Button" />
-
-        <Button
-            android:id="@+id/BT_post_4"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Button" />
-
-        <Button
-            android:id="@+id/BT_post_5"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Button" />
-    </LinearLayout>
 
 </RelativeLayout>

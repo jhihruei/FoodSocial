@@ -36,6 +36,7 @@
         </activity>
         <activity
             android:name="com.tw.foodsocial.postPage"></activity>
+        <activity android:name="com.tw.foodsocial.foodSocialFrame"></activity>
     </application>
 
     

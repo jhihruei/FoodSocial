@@ -349,7 +349,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 	
 	private void gotoIndex(){
 		Intent i = new Intent();
-		i.setClass(MainActivity.this, index.class);
+		//i.setClass(MainActivity.this, index.class);
+		i.setClass(MainActivity.this, foodSocialFrame.class);
 		startActivity(i);
 	}
 }

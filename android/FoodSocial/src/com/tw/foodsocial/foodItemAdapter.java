@@ -151,8 +151,12 @@ public class foodItemAdapter extends ArrayAdapter<foodItem>{
 	}
 	
 	public void refresh(List<foodItem> newfItems){
-		this.fItems = newfItems;
-		this.notifyDataSetChanged();
+		try{
+			this.fItems = newfItems;
+			this.notifyDataSetChanged();
+		}catch(Exception e){
+			Log.d("e", e.toString());
+		}
 	}
 	
 	public void addFav(final String addTargetGroupName,final int postID){
