@@ -35,9 +35,14 @@ def login(type,account,password,fbID): #登入api
             return jsonify({"stat":1,"userID":int(checkLogin['userID'])})
         else:
             mc.close()
-            return 0
+            return jsonify({"stat":0})
     elif type == 'fb':
+        checkLogin = lCol.find_one({"fbID":fbID},{"loginDevice":1,"userID":1})
         mc.close()
+        if checkLogin is not None:
+            return jsonify({"stat":1,"userID":int(checkLogin['userID'])})
+        else:
+            return jsonify({"stat":0})
         return 0
 
 def updateLoginTime(userid): #傳入userid更新最後登入時間
@@ -48,8 +53,16 @@ def updateLoginTime(userid): #傳入userid更新最後登入時間
     mc.close()
     return result
 
-def checkAccount():
-        pass    
+def checkAccountRepeat(account):
+    mc = MongoClient()
+    uCon = mc.foodSocial
+    uCol = uCon.users
+    result = uCol.find({"account":account})
+    mc.close()
+    if result is None:
+        return True
+    else:
+        return False
 
 def followUser(userid,followid):#follow 其他User
     mc = MongoClient()
