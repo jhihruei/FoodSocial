@@ -3,6 +3,7 @@ package com.tw.foodsocial;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -27,6 +28,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -48,23 +51,35 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 	private GlobalVariable gv;
 	private HttpClient client,Gclient;
 	private static JSONObject jObj,GjObj;
+	private SharedPreferences pref;
+	private static final String PREF_NAME = "AndroidFoodSocial";
+	private static final String IS_LOGIN = "IsLogined";
+	public static final String KEY_ACCOUNT = "account";
+	public static final String KEY_PASSWD = "passwd";
+	int PRIVATE_MODE = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+        pref = this.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         init();
+        if(pref.getBoolean(IS_LOGIN, false)){
+        	String userAccount = pref.getString(KEY_ACCOUNT, null);
+        	String userPasswd = pref.getString(KEY_PASSWD, null);
+        	accountLogin(userAccount,userPasswd);
+        }
         mHandler = new Handler(){
         	public void handleMessage(Message msg){
         		switch(msg.what){
         			case 1:
-        				//gotoIndex();
         				setGroups();
         				break;
         			case 2: 
         				onClick(buttonAccount);
         				break;
         			case 3:
+        				gv.groupReset();
 					try {
 						if(GjObj.getInt("stat") == 1){
         					try {
@@ -121,7 +136,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 	    	        JSONObject postData = new JSONObject();
 	    	        postData.put("type", "account");
 	    	        postData.put("account", str_user);
-	    	        postData.put("password", str_user);
 	    	        postData.put("password", str_passwd);
 	    	        postData.put("fbID", "");
 	    	        post.setEntity(new StringEntity(postData.toString()));
@@ -133,6 +147,10 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 						Log.d("loginresult", "stat:"+jObj.getString("stat"));
 						gv.setUserID(jObj.getInt("userID"));
 						Log.d("loginresult", "userID:"+jObj.getInt("userID"));
+						pref.edit().putBoolean(IS_LOGIN, true).commit();
+						pref.edit().putString(KEY_ACCOUNT, str_user).commit();
+						pref.edit().putString(KEY_PASSWD, str_passwd).commit();
+						Log.d("session", pref.getString(KEY_ACCOUNT, null));
 						Message msg_t = new Message();
 						msg_t.what = 1;
 						mHandler.handleMessage(msg_t);

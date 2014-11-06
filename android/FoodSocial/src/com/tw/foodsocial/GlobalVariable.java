@@ -6,8 +6,8 @@ import android.app.Application;
 import android.util.Log;
 
 public class GlobalVariable extends Application{
-	private String Url = "http://104.131.147.212/api/";
-	//private String Url = "http://10.0.2.2:5000/api/";
+	//private String Url = "http://104.131.147.212/api/";
+	private String Url = "http://10.0.2.2:5000/api/";
 	private int curUserID = 0;
 	private ArrayList<groupItem> groups = new ArrayList<groupItem>();
 	
@@ -23,6 +23,10 @@ public class GlobalVariable extends Application{
 	
 	public int getUserID(){
 		return this.curUserID;
+	}
+	
+	public void groupReset(){
+		this.groups = new ArrayList<groupItem>();
 	}
 	
 	public void setGroup(String newGroupName, ArrayList<Integer> inputIDs){
