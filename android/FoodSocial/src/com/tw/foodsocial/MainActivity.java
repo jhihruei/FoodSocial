@@ -21,8 +21,11 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
 
 import android.support.v7.app.ActionBarActivity;
 import android.app.Dialog;
@@ -56,6 +59,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 	private static final String IS_LOGIN = "IsLogined";
 	public static final String KEY_ACCOUNT = "account";
 	public static final String KEY_PASSWD = "passwd";
+	public static final String KEY_FB = "fb";
+	public static final String KEY_LOGINTYPE = "loginType";
+	private String fbID = "",fbName="";
 	int PRIVATE_MODE = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +71,17 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
         pref = this.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         init();
         if(pref.getBoolean(IS_LOGIN, false)){
-        	String userAccount = pref.getString(KEY_ACCOUNT, null);
-        	String userPasswd = pref.getString(KEY_PASSWD, null);
-        	accountLogin(userAccount,userPasswd);
+        	if(pref.getString(KEY_LOGINTYPE, null) == KEY_ACCOUNT){
+        		Log.d("aa", "bb");
+        		String userAccount = pref.getString(KEY_ACCOUNT, null);
+        		String userPasswd = pref.getString(KEY_PASSWD, null);
+        		accountLogin(userAccount,userPasswd);
+        	}
+        	else if(pref.getString(KEY_LOGINTYPE, null) == KEY_FB){
+        		Log.d("aa", "aa");
+        		//String tfbID = pref.getString(KEY_FB, null);
+        		//fbLogin(tfbID);
+        	}
         }
         mHandler = new Handler(){
         	public void handleMessage(Message msg){
@@ -102,12 +116,48 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 					}
         				gotoIndex();
         				break;
+        			case 4:
+        				gv.groupReset();
+					try {
+						if(jObj.getInt("stat") == 0){
+        					fbSignUp(fbID,fbName);
+        					Log.d("fbSignUp", "fb");
+        				}
+						else
+							setGroups();
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						//e.printStackTrace();
+						Log.d("123", "123");
+						Log.d("je", e.toString());
+					}
+        				break;
+        			case 5:
+        				fbLogin(fbID);
+        				//setGroups();
+        				break;
         		}		
         		super.handleMessage(msg);
         	}
         };
-        if(Session.openActiveSessionFromCache(mContext)!=null)//開啟app後抓FB cache如果有就直接進入index
-        	gotoIndex();
+        if(Session.openActiveSessionFromCache(mContext)!=null){//開啟app後抓FB cache如果有就直接進入index
+        	Log.d("fbauto", "QQ");
+        	Request.newMeRequest(Session.getActiveSession(), new Request.GraphUserCallback() {
+				
+				@Override
+				public void onCompleted(GraphUser user, Response response) {
+					// TODO Auto-generated method stub
+					if(user != null){
+						Log.d("userID", user.getId());
+						fbID = user.getId();
+						fbName = user.getName();
+						fbLogin(fbID);
+					}
+				}
+			}).executeAsync();
+        	fbLogin(fbID);
+        	//gotoIndex();
+        }
     }
     
     private void init(){
@@ -150,6 +200,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 						pref.edit().putBoolean(IS_LOGIN, true).commit();
 						pref.edit().putString(KEY_ACCOUNT, str_user).commit();
 						pref.edit().putString(KEY_PASSWD, str_passwd).commit();
+						pref.edit().putString(KEY_LOGINTYPE, KEY_ACCOUNT);
 						Log.d("session", pref.getString(KEY_ACCOUNT, null));
 						Message msg_t = new Message();
 						msg_t.what = 1;
@@ -173,6 +224,62 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
     	mThread.start();
     }
     
+    private void fbLogin(final String ifbID){//
+    	mThread = new Thread(new Runnable(){
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+	    			String str_user = "";
+	    			String str_passwd = "";
+	    			client = new DefaultHttpClient();
+	    			String url = gv.getUrl()+"login";
+	    	        HttpPost post = new HttpPost(url);
+	    	        JSONObject postData = new JSONObject();
+	    	        postData.put("type", "fb");
+	    	        postData.put("account", str_user);
+	    	        postData.put("password", str_passwd);
+	    	        postData.put("fbID", ifbID);
+	    	        post.setEntity(new StringEntity(postData.toString()));
+	    	        post.setHeader("Content-type", "application/json");
+	    	        HttpResponse rp = client.execute(post);
+					if(rp.getStatusLine().getStatusCode() == 200){
+						String result = EntityUtils.toString(rp.getEntity());
+						jObj = new JSONObject(result);
+						Log.d("loginresult", "stat:"+jObj.getString("stat"));
+						if(jObj.getInt("stat") == 1){
+							gv.setUserID(jObj.getInt("userID"));
+						//Log.d("loginresult", "userID:"+jObj.getInt("userID"));
+						pref.edit().putBoolean(IS_LOGIN, true).commit();
+						//pref.edit().putString(KEY_ACCOUNT, str_user).commit();
+						//pref.edit().putString(KEY_PASSWD, str_passwd).commit();
+						pref.edit().putString(KEY_FB, ifbID).commit();
+						pref.edit().putString(KEY_LOGINTYPE, KEY_FB).commit();
+						//Log.d("session", pref.getString(KEY_ACCOUNT, null));
+						}
+						Message msg_t = new Message();
+						msg_t.what = 4;
+						mHandler.handleMessage(msg_t);
+					}
+					else{
+						Log.d("result", "Not 200");
+					}
+				} catch (ClientProtocolException e) {
+					Log.d("cPE", e.getMessage().toString());
+				} catch (IOException e) {
+					Log.d("IOE", e.getMessage().toString());
+				} catch (Exception e){
+					Log.d("fbLE", e.getMessage().toString());
+				}
+				finally{
+					client.getConnectionManager().shutdown();
+				}
+			}
+    	});
+    	mThread.start();
+    }
+    
     private void accountSignUp(final String inputAccount,final String inputPassword,final String inputAccountName){//
     	mThread = new Thread(new Runnable(){
 
@@ -184,7 +291,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 	    			String str_passwd = inputPassword;
 	    			String str_accountName = inputAccountName;
 	    			client = new DefaultHttpClient();
-	    	        HttpPost post = new HttpPost("http://10.0.2.2:5000/api/addUser");
+	    			String url = gv.getUrl()+"addUser";
+	    	        HttpPost post = new HttpPost(url);
 	    	        JSONObject postData = new JSONObject();
 	    	        postData.put("account", str_account);
 	    	        postData.put("accountName", str_accountName);
@@ -212,6 +320,56 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 					Log.d("IOE", e.getMessage().toString());
 				} catch (Exception e){
 					Log.d("E", e.getMessage().toString());
+				}
+				finally{
+					client.getConnectionManager().shutdown();
+				}
+			}
+    	});
+    	mThread.start();
+    }
+    
+    private void fbSignUp(final String inputFBID,final String inputFBName){//
+    	mThread = new Thread(new Runnable(){
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				Log.d("inSIgnup", "QQ");
+				try {
+	    			String str_account = "";
+	    			String str_passwd = "";
+	    			String str_accountName = inputFBName;
+	    			client = new DefaultHttpClient();
+	    			String url = gv.getUrl()+"addUser";
+	    	        HttpPost post = new HttpPost(url);
+	    	        JSONObject postData = new JSONObject();
+	    	        postData.put("account", str_account);
+	    	        postData.put("accountName", str_accountName);
+	    	        postData.put("password", str_passwd);
+	    	        postData.put("fbID", inputFBID);
+	    	        postData.put("loginDevice", "");
+	    	        post.setEntity(new StringEntity(postData.toString()));
+	    	        post.setHeader("Content-type", "application/json");
+	    	        HttpResponse rp = client.execute(post);
+					if(rp.getStatusLine().getStatusCode() == 200){
+						String result = EntityUtils.toString(rp.getEntity());
+						jObj = new JSONObject(result);
+						Log.d("FBSresult", "stat:"+jObj.getString("stat"));
+						Message msg_t = new Message();
+						msg_t.what = 5;
+						//msg_t = mHandler.obtainMessage(2, obj)
+						mHandler.handleMessage(msg_t);
+					}
+					else{
+						Log.d("result", "Not 200");
+					}
+				} catch (ClientProtocolException e) {
+					Log.d("fbscPE", e.getMessage().toString());
+				} catch (IOException e) {
+					Log.d("fnsIOE", e.getMessage().toString());
+				} catch (Exception e){
+					Log.d("fbsE", e.getMessage().toString());
 				}
 				finally{
 					client.getConnectionManager().shutdown();
@@ -253,7 +411,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 				} catch (IOException e) {
 					Log.d("IOE", e.getMessage().toString());
 				} catch (Exception e){
-					Log.d("E", e.getMessage().toString());
+					Log.d("GE", e.getMessage().toString());
 				}
 				finally{
 					Gclient.getConnectionManager().shutdown();
@@ -263,12 +421,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
     	mGThread.start();
     }
     
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -318,9 +470,27 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
     			public void call(Session session, SessionState state, Exception exception) {
     				// TODO Auto-generated method stub
     				if(session.isOpened()){
-    					Log.e("jack", session.getAccessToken());
-    					Log.e("jack_1",session.getState().toString());
-    					gotoIndex();
+    					Log.d("jack", "jack");
+    					Log.d("jack", session.getAccessToken());
+    					Log.d("jack_1",session.getState().toString());
+    					Request.newMeRequest(session, new Request.GraphUserCallback() {
+							
+							@Override
+							public void onCompleted(GraphUser user, Response response) {
+								// TODO Auto-generated method stub
+								if(user != null){
+									Log.d("userID", user.getId());
+									fbID = user.getId();
+									fbName = user.getName();
+									fbLogin(fbID);
+								}
+							}
+						}).executeAsync();
+    					//Request request = Request.newGraphPathRequest(session, "me", null);
+    					//com.facebook.Response response = Request.executeAndWait(request);
+    					//GraphUser user = (GraphUser) response.getGraphObject();
+    					//Log.d("fbID", user.getId());
+    					//gotoIndex();
     				}
     			}
 
