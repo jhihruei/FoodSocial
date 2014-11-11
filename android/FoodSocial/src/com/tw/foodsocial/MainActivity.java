@@ -3,20 +3,12 @@ package com.tw.foodsocial;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,12 +24,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -71,17 +61,12 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
         pref = this.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         init();
         if(pref.getBoolean(IS_LOGIN, false)){
-        	if(pref.getString(KEY_LOGINTYPE, null) == KEY_ACCOUNT){
+        	//if(pref.getString(KEY_LOGINTYPE, null) == KEY_ACCOUNT){
         		Log.d("aa", "bb");
         		String userAccount = pref.getString(KEY_ACCOUNT, null);
         		String userPasswd = pref.getString(KEY_PASSWD, null);
         		accountLogin(userAccount,userPasswd);
-        	}
-        	else if(pref.getString(KEY_LOGINTYPE, null) == KEY_FB){
-        		Log.d("aa", "aa");
-        		//String tfbID = pref.getString(KEY_FB, null);
-        		//fbLogin(tfbID);
-        	}
+        	//}
         }
         mHandler = new Handler(){
         	public void handleMessage(Message msg){

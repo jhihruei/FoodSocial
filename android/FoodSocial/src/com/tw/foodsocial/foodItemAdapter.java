@@ -186,7 +186,7 @@ public class foodItemAdapter extends ArrayAdapter<foodItem>{
 	    	        postData.put("userID", userID);
 	    	        postData.put("groupName", addTargetGroupName);
 	    	        postData.put("postIDarray", postIDarray);
-	    	        post.setEntity(new StringEntity(postData.toString()));
+	    	        post.setEntity(new StringEntity(postData.toString(),"UTF-8"));
 	    	        post.setHeader("Content-type", "application/json");
 	    	        HttpResponse rp = client.execute(post);
 					if(rp.getStatusLine().getStatusCode() == 200){

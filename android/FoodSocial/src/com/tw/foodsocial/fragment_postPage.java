@@ -5,9 +5,11 @@ import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -111,7 +113,7 @@ public class fragment_postPage extends Fragment implements OnClickListener{
 	    	        postData.put("latitude", lJArray);
 	    	        postData.put("content", postET_content.getText().toString());
 	    	        postData.put("picture", pJArray);
-	    	        post.setEntity(new StringEntity(postData.toString()));
+	    	        post.setEntity(new StringEntity(postData.toString(),"UTF-8"));
 	    	        post.setHeader("Content-type", "application/json");
 	    	        HttpResponse rp = client.execute(post);
 					if(rp.getStatusLine().getStatusCode() == 200){
@@ -150,7 +152,7 @@ public class fragment_postPage extends Fragment implements OnClickListener{
 		}
 		else if(v == postBtn_post){
 			postToApi();
-			gotoIndex();
+			//gotoIndex();
 			//finish();
 		}
 	}

@@ -114,6 +114,7 @@ public class fragment_myFavs extends Fragment {
 					gItems.get(groupPosition).setFoodItems();
 				}
 				TextView TV_groupName = (TextView) v.findViewById(R.id.TV_Row1_1);
+				//Button BT_rand = (Button) v.findViewById(R.id.BT_Row1_rand);
 				if(groupName != null)
 					TV_groupName.setText(groupName);
 				return v;
