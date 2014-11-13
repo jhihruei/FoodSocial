@@ -2,6 +2,8 @@ package com.tw.foodsocial;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Random;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -79,7 +81,7 @@ public class groupItem {
 					if(rp.getStatusLine().getStatusCode() == 200){
 						String result = EntityUtils.toString(rp.getEntity());
 						JSONObject jObjPost = new JSONObject(result);
-						Log.d("result", "stat:"+jObjPost.getString("stat"));
+						//Log.d("result", "stat:"+jObjPost.getString("stat"));
 						//Log.d("postID",	"result:"+jObjPost.getJSONArray("result"));
 						//Log.d("threadfw", "thread="+Thread.currentThread().getName());
 						//Message msg_t = new Message();
@@ -117,11 +119,26 @@ public class groupItem {
     	mThreadpost.start();
 	}
 	
+	public foodItem randGetFood(){
+		Random r = new Random();
+		r.setSeed(new Date().getTime());
+		int randNumber = r.nextInt(groupFoodItems.size());
+		return groupFoodItems.get(randNumber);
+	}
+	
 	public foodItem getFoodItem(int i){
 		return this.groupFoodItems.get(i);
 	}
 	
 	public Boolean checkFoodItemEmpty(){
-		return this.groupFoodItems.isEmpty();
+		if(this.groupFoodItems.isEmpty())
+			return true;
+		else{
+			for(int i = 0 ; i < this.groupFoodItems.size() ; i++){
+				if(this.groupFoodItems.get(i) == null)
+					return true;
+			}
+			return false;
+		}
 	}
 }

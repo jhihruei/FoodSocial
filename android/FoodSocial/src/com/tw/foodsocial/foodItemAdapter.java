@@ -108,7 +108,7 @@ public class foodItemAdapter extends ArrayAdapter<foodItem>{
 						// TODO Auto-generated method stub
 						ArrayAdapter<String> tempAdapter = (ArrayAdapter<String>) parent.getAdapter();
 						addFav(tempAdapter.getItem((int) id),fItem.getPostID());
-						Toast.makeText(view.getContext(), "id:"+tempAdapter.getItem((int) id), Toast.LENGTH_LONG).show();
+						//Toast.makeText(view.getContext(), "id:"+tempAdapter.getItem((int) id), Toast.LENGTH_LONG).show();
 						addGroup.dismiss();
 					}
 	    			

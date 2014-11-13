@@ -3,6 +3,7 @@ package com.tw.foodsocial;
 import java.util.ArrayList;
 import java.util.Map;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,11 +11,13 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class fragment_myFavs extends Fragment {
 	private View mView;
@@ -26,8 +29,8 @@ public class fragment_myFavs extends Fragment {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		init();
-		//Log.d("group", gv.getGroups().get(0).getGroupName());
 		gPA = new groupParentAdapter(this.getActivity().getBaseContext(),ELV_Fav,gv.getGroups());
+			
 		ELV_Fav.setAdapter(gPA);
 	}
 
@@ -36,6 +39,7 @@ public class fragment_myFavs extends Fragment {
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		mView = inflater.inflate(R.layout.fragment_myfavs, container, false);
+		Log.d("oCV", "oCV");
 		return mView;
 	}
 	
@@ -100,7 +104,7 @@ public class fragment_myFavs extends Fragment {
 		}
 
 		@Override
-		public View getGroupView(int groupPosition, boolean isExpanded,
+		public View getGroupView(final int groupPosition, boolean isExpanded,
 				View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
 			View v = null;
@@ -114,7 +118,38 @@ public class fragment_myFavs extends Fragment {
 					gItems.get(groupPosition).setFoodItems();
 				}
 				TextView TV_groupName = (TextView) v.findViewById(R.id.TV_Row1_1);
-				//Button BT_rand = (Button) v.findViewById(R.id.BT_Row1_rand);
+				Button BT_rand = (Button) v.findViewById(R.id.BT_Row1_rand);
+				
+				BT_rand.setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						foodItem tempFItem = gItems.get(groupPosition).randGetFood();
+						Log.d("randID", tempFItem.getTitle());
+						final Dialog signUp=new Dialog(v.getContext()); 
+			    		signUp.setTitle("今天吃什麼?");
+			    		signUp.setContentView(R.layout.fooditem);
+			    		
+			    		TextView TV_foodItem_title = (TextView) signUp.findViewById(R.id.TV_foodItem_title);
+			    		TextView TV_foodItem_address = (TextView) signUp.findViewById(R.id.TV_foodItem_address);
+			    		TextView TV_foodItem_content = (TextView) signUp.findViewById(R.id.TV_foodItem_content);
+			    		TextView TV_foodItem_postTime = (TextView) signUp.findViewById(R.id.TV_foodItem_postTIme);
+			    		TextView TV_foodItem_posterName = (TextView) signUp.findViewById(R.id.TV_foodItem_poster);
+			    		TextView TV_foodItem_recommendByName = (TextView) signUp.findViewById(R.id.TV_foodItem_recommendBy);
+			    		Button BT_addGroup = (Button) signUp.findViewById(R.id.BT_foosItem_addGroup);
+			    		
+			    		TV_foodItem_title.setText(tempFItem.getTitle());
+			    		TV_foodItem_address.setText(tempFItem.getAddress());
+			    		TV_foodItem_content.setText(tempFItem.getContent());
+			    		TV_foodItem_postTime.setText(tempFItem.getPostTimeString());
+			    		TV_foodItem_posterName.setText(tempFItem.getPosterName());
+			    		TV_foodItem_recommendByName.setText(tempFItem.getRecommendByName());
+			    		signUp.show();
+						//Toast.makeText(, tempFItem.getPostID(), Toast.LENGTH_LONG);
+					}
+				});
+				
 				if(groupName != null)
 					TV_groupName.setText(groupName);
 				return v;

@@ -88,7 +88,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 										intArray.add(GjObj.getJSONArray("result").getJSONObject(i).getJSONArray("groups").getInt(j));
 									}
 									gv.setGroup(GjObj.getJSONArray("result").getJSONObject(i).getString("groupName"), intArray);
-									Log.d("groupArray", gv.getGroups().get(0).getIDs().toString());
+									//Log.d("groupArray", gv.getGroups().get(0).getIDs().toString());
 								}
 							} catch (JSONException e) {
 								// TODO Auto-generated catch block
