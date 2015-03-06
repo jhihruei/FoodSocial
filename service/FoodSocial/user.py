@@ -9,9 +9,13 @@ def adduser(account,password,accountName,fbID,loginDevice): #新增user
     userCon = mc.foodSocial
     userCol = userCon.users
     curDate = datetime.now()
-    newUserID = getUserNextSeq()
-    userData = {"userID":newUserID,"account":account,"password":password,"accountName":accountName,"fbID":fbID,"apiKey":createApiKey(accountName+curDate.strftime('%Y-%m-%d %H:%M:%S')),"followUser":[newUserID],"lastLoginTime":curDate,"createdTime":curDate,"loginDevice":loginDevice}
-    userCheck = userCol.insert(userData)
+    if not checkAccountRepeat(account):
+        newUserID = getUserNextSeq()
+        userData = {"userID":newUserID,"account":account,"password":password,"accountName":accountName,"fbID":fbID,"apiKey":createApiKey(accountName+curDate.strftime('%Y-%m-%d %H:%M:%S')),"followUser":[newUserID],"lastLoginTime":curDate,"createdTime":curDate,"loginDevice":loginDevice}
+        userCol.insert(userData)
+        userCheck = True
+    else:
+        userCheck = False
     mc.close()
     return userCheck
 
@@ -57,12 +61,12 @@ def checkAccountRepeat(account):
     mc = MongoClient()
     uCon = mc.foodSocial
     uCol = uCon.users
-    result = uCol.find({"account":account})
+    result = uCol.find_one({"account":account},{"account":1})
     mc.close()
     if result is None:
-        return True
-    else:
         return False
+    else:
+        return True
 
 def followUser(userid,followid):#follow 其他User
     mc = MongoClient()

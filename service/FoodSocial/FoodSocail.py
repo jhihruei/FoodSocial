@@ -47,8 +47,8 @@ def post():
 def addUser():
     from user import adduser
     udata = request.get_json(force=True)
-    adduser(udata['account'],udata['password'],udata['accountName'],udata['fbID'],udata['loginDevice'])
-    return jsonify({"stat":1})
+    signUpResult = adduser(udata['account'],udata['password'],udata['accountName'],udata['fbID'],udata['loginDevice'])
+    return jsonify({"stat":1,"result":signUpResult})
 
 @app.route('/api/login',methods=['POST'])#FS-003 登入
 def login():
@@ -86,7 +86,7 @@ def getPostId():
         from post import getPostIDByuserID 
         result = getPostIDByuserID(data['userID'],data['count'])
     else:
-        print 'Q'
+        print('Q')
     return jsonify({"stat":1,"result":result})
 
 @app.route('/api/Favorites/add',methods=['POST'])#FS-008 Fav新增
@@ -108,6 +108,13 @@ def getName():
     from user import getUserName
     udata = request.get_json(force=True)
     result = getUserName(udata['userID'])
+    return jsonify({"stat":1,"result":result})
+
+@app.route('/api/user/checkRepeat',methods=['POST'])
+def testCheck():
+    from user import checkAccountRepeat
+    data = request.get_json(force=True)
+    result = checkAccountRepeat(data['accountName'])
     return jsonify({"stat":1,"result":result})
 
 
